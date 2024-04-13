@@ -1,0 +1,29 @@
+{
+    "project_info": {
+      "project_number": "3136277170",
+      "project_id": "medbilleater",
+      "storage_bucket": "medbilleater.appspot.com"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:3136277170:android:e384dc0b43bffdc09fd7ab",
+          "android_client_info": {
+            "package_name": "com.medbilleater"
+          }
+        },
+        "oauth_client": [],
+        "api_key": [
+          {
+            "current_key": "AIzaSyAcY3KB2gFwOHjxVzsa4rIU6LLngLy61as"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": []
+          }
+        }
+      }
+    ],
+    "configuration_version": "1"
+  }
