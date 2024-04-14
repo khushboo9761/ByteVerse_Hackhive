@@ -53,7 +53,7 @@ const ImagePicker: React.FC = () => {
       const formData = new FormData();
       selectedFiles.forEach(async (file, index) => {
         const fileBlob = await RNFetchBlob.fs.readFile(file.url, 'base64');
-        formData.append(`file${index + 1}`, fileBlob, file.name);
+       // formData.append(`file${index + 1}`, fileBlob, file.name);
       });
 
       const response = await axios.post('https://127.0.0.1:5000/upload', formData, {

@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, Alert } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-const Login = () => {
+import { NavigationContainer } from '@react-navigation/native';
+
+const Login :React.FC<{ navigation: any }> = ({ navigation }) =>{
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -11,7 +13,7 @@ const Login = () => {
       .signInWithEmailAndPassword(email, password)
       .then(() => {
         console.log('User logged in successfully!');
-       
+        navigation.navigate('FilesUpload');
       })
       .catch(error => {
         if (error.code === 'auth/user-not-found') {
@@ -30,7 +32,7 @@ const Login = () => {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <TextInput
-        style={{ height: 40, width: 300, borderColor: 'gray', borderWidth: 1, marginBottom: 20, paddingHorizontal: 10 }}
+        style={{ height: 40, width: 300, borderColor: 'gray', borderWidth: 1, marginBottom: 20, paddingHorizontal: 10,color:'white' }}
         onChangeText={text => setEmail(text)}
         value={email}
         placeholder="Email"
@@ -38,7 +40,7 @@ const Login = () => {
         autoCapitalize="none"
       />
       <TextInput
-        style={{ height: 40, width: 300, borderColor: 'gray', borderWidth: 1, marginBottom: 20, paddingHorizontal: 10 }}
+        style={{ height: 40, width: 300, borderColor: 'gray', borderWidth: 1, marginBottom: 20, paddingHorizontal: 10,color:'white' }}
         onChangeText={text => setPassword(text)}
         value={password}
         placeholder="Password"
