@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import DocumentPicker from 'react-native-document-picker'; // Import DocumentPicker
-
+import { callGoogleVisionAsync } from '../ocr/Googlevision';
+import RNFS from 'react-native-fs';
 interface IFile {
   url: string;
   name: string;
 }
 
-const FilesUpload: React.FC = () => {
+const FilesUpload:React.FC<{ navigation: any }> = ({ navigation })  => {
   const [selectedFiles, setSelectedFiles] = useState<IFile[]>([]);
   const [fileInfos, setFileInfos] = useState<IFile[]>([]);
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [result, setResult] = useState<string | null>(null);
+  const [responses, setResponses] = useState<any[]>([]); 
   useEffect(() => {
     // Load initial files when component mounts
     loadFiles();
@@ -46,9 +48,19 @@ const FilesUpload: React.FC = () => {
       console.log('Error selecting files:', error);
     }
   };
-  const uploadFiles = () => {
-    // Implement file upload logic here
-  //  console.log('Selected files:', selectedFiles);
+  const uploadFiles = async () => {
+    try {
+      const promises = selectedFiles.map(async (file) => {
+        const content = await RNFS.readFile(file.url, 'base64'); // Read file content and convert to Base64
+        return callGoogleVisionAsync(content); // Call callGoogleVisionAsync with Base64 content
+      });
+      const responses = await Promise.all(promises); // Wait for all calls to complete
+      console.log('Google Vision API responses:', responses);
+       console.log(JSON.stringify(responses));
+       navigation.navigate('MedicalBillSummary');
+    } catch (error) {
+      console.error('Error calling Google Vision API:', error);
+    }
   };
 
   return (
