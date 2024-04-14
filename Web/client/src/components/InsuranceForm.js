@@ -1,51 +1,54 @@
 import React, { useState } from "react";
-// import UploadImagePage from "./UploadImagePage";
+import UploadImagePage from "./UploadImagePage";
 import "../styles/InsuranceForm.css";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
-const InsuranceForm = ({ userData }) => {
+const InsuranceForm = () => {
   const [insuranceName, setInsuranceName] = useState("");
   const [address, setAddress] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const navigate = useNavigate();
+
+  const { user } = useAuth0();
+  const email = user.email;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Check if userData is available and email matches
-    if (!userData || userData.email !== event.target.email.value) {
-      console.error("Unauthorized access");
-      return;
-    }
-
     const formData = {
       insuranceName,
       address,
-      email: userData.email,
+      email,
     };
 
+    // Make the POST request with the form data
     try {
-      const response = await axios.post("/api/auth/submitForm", formData); // Assuming the endpoint is '/api/submit_insurance_form'
+      const response = await fetch("http://127.0.0.1:5000/update_email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // Include the authorization header if needed
+        },
+        body: JSON.stringify(formData),
+      });
 
-      if (!response.data.success) {
-        throw new Error(`Server error: ${response.data.message}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+      console.log(response);
 
+      // If submission is successful, set submitted to true
       setSubmitted(true);
     } catch (error) {
       console.error("There was an error submitting the form:", error);
     }
   };
 
-  // if (submitted) {
-  //   return <UploadImagePage />;
-  // }
-
+  // If the form has been submitted, render the UploadImagePage
   if (submitted) {
-    return 'Yes';
+    return <UploadImagePage />;
   }
 
+  // Form rendering with an input for the address
   return (
     <div className="form-container">
       <form onSubmit={handleSubmit} className="centered-form">
@@ -71,13 +74,14 @@ const InsuranceForm = ({ userData }) => {
             type="text"
             id="address"
             value={address}
-            onChange={(e) => setAddress(e.target.value)}
+            onChange={(e) => {
+              setAddress(e.target.value);
+              console.log("Address:", e.target.value); // Log the address value
+            }}
             required
             className="form-control"
           />
         </div>
-        {/* Pass email as hidden input */}
-        <input type="hidden" name="email" value={userData ? userData.email : ""} />
         {/* Submit button */}
         <div className="button-container">
           <button type="submit" className="submit-button">
