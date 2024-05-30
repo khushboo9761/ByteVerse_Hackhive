@@ -30,6 +30,7 @@ This web application is built using the following technologies:
   
 - **Authentication:**
   - Auth0: A flexible authentication and authorization platform. [Here](https://auth0.com/).
+  - ![Screenshot](g1.png)
 
 ## Dependencies and APIs Used
 
