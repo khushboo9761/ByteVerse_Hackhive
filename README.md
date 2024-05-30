@@ -36,7 +36,7 @@ This web application is built using the following technologies:
   - ![Screenshot](g4.png)
   - ![Screenshot](g5.png)
   - ![Screenshot](g6.png)
-  - ![Screenshot](g7.png)
+  - ![Screenshot](g7.jpeg)
 
 ## Dependencies and APIs Used
 
